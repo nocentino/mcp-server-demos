@@ -44,12 +44,12 @@ The SQL Servers that have aen-sql-25 contained in their name are on FlashArray. 
 
 ## Step 4 — Real-Time Operational Visibility Report
 
-**What this does:** Loads the Database SRE skills file, which gives the agent its financial services context: SLA tiers, capacity thresholds, alert priorities, and fleet topology (AZ assignments, HA rules). Then runs the Real-Time Operational Visibility workflow covering hardware health, active alerts, capacity utilization, and performance against tier SLA thresholds.
+**What this does:** Runs the Real-Time Operational Visibility workflow covering hardware health, active alerts, capacity utilization, and performance against tier SLA thresholds.
 
-**Note:** The `#database-sre-agent.md` syntax references the skills file from the project directory using Claude Code's file reference feature.
+**Note:** The Database SRE context (SLA tiers, capacity thresholds, alert priorities, fleet topology, HA rules) is loaded automatically from `CLAUDE.md` at the start of every session — no explicit load step needed.
 
 ```
-You're a database SRE, load the #database-sre-agent.md skills file and produce the "Real-Time Operational Visibility" report.
+Produce the "Real-Time Operational Visibility" report.
 ```
 
 ---
