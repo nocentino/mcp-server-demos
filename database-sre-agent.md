@@ -132,7 +132,7 @@ For tier-1 databases, verify:
 - Flag replication connections in `connecting` state for extended periods (fleet-management links showing `connecting` should be investigated).
 - Flag unencrypted replication links on production data.
 
-### Remediation Priority Queue
+### Remediation Plan
 
 After completing any Compliance & Audit report, produce a structured remediation plan. Order items by severity first, then by effort (lowest effort items within the same severity tier should be done first). Present the plan as a table with the following columns:
 
