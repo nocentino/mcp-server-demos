@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__fusion-mcp__fetch",
+      "mcp__fusion-mcp__arrays_performance",
+      "mcp__fusion-mcp__volumes_list",
+      "mcp__fusion-mcp__fleet_overview",
+      "mcp__fusion-mcp__arrays_list",
+      "mcp__fusion-mcp__docs_endpoint",
+      "mcp__fusion-mcp__docs_get",
+      "mcp__fusion-mcp__filesystems_list"
+    ]
+  }
+}

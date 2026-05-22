@@ -1,0 +1,5 @@
+# Claude Code local permission overrides — not for sharing
+.claude/settings.local.json
+
+# macOS
+.DS_Store
