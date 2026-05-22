@@ -46,10 +46,10 @@ The SQL Servers that have aen-sql-25 contained in their name are on FlashArray. 
 
 **What this does:** Runs the Real-Time Operational Visibility workflow covering hardware health, active alerts, capacity utilization, and performance against tier SLA thresholds.
 
-**Note:** The Database SRE context (SLA tiers, capacity thresholds, alert priorities, fleet topology, HA rules) is loaded automatically from `CLAUDE.md` at the start of every session — no explicit load step needed.
+**Note:** `CLAUDE.md` bootstraps the agent automatically at session start and points to `database-sre-agent.md`. The prompt below names the skills file explicitly so the audience can see what's driving the agent's behavior.
 
 ```
-Produce the "Real-Time Operational Visibility" report.
+You're a Database SRE agent. Your skills and workflows are defined in #database-sre-agent.md. Produce the "Real-Time Operational Visibility" report.
 ```
 
 ---

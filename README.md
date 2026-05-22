@@ -6,7 +6,8 @@ Demo scripts and skills files for using [Claude Code](https://claude.ai/code) as
 
 | File | Description |
 |---|---|
-| `CLAUDE.md` | Database SRE skills file — loaded automatically by Claude Code at session start; encodes SLA tiers, compliance policy, fleet topology, and operational workflows |
+| `CLAUDE.md` | Auto-loaded by Claude Code at session start — bootstraps the agent and points to `database-sre-agent.md` |
+| `database-sre-agent.md` | Database SRE skills file — encodes SLA tiers, compliance policy, fleet topology, and operational workflows |
 | `demo.md` | Step-by-step demo script — prompts with explanations for each workflow |
 | `.claude/settings.json` | Claude Code project permissions — pre-approves the Fusion MCP tools needed for the demo |
 
@@ -30,7 +31,7 @@ Each entry in `auth-config.json` needs a valid API token for the target array.
 
 ## The Skills File
 
-`CLAUDE.md` is what turns Claude Code from a generic assistant into a Database SRE agent. Claude Code reads it automatically at the start of every session — no prompt needed. It encodes:
+`database-sre-agent.md` is what turns Claude Code from a generic assistant into a Database SRE agent. `CLAUDE.md` is read automatically at session start and bootstraps the agent by pointing Claude Code to `database-sre-agent.md`. It encodes:
 
 - **Fleet topology** — which arrays are in which availability zones, site assignments, HA placement rules for SQL Server pairs
 - **Performance SLA tiers** — Tier 1 (OLTP) < 0.5ms, Tier 2 (general DB) < 2ms, Tier 3 (batch) < 10ms
