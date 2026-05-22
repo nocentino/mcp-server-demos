@@ -132,6 +132,28 @@ For tier-1 databases, verify:
 - Flag replication connections in `connecting` state for extended periods (fleet-management links showing `connecting` should be investigated).
 - Flag unencrypted replication links on production data.
 
+### Remediation Priority Queue
+
+After completing any Compliance & Audit report, produce a structured remediation plan. Order items by severity first, then by effort (lowest effort items within the same severity tier should be done first). Present the plan as a table with the following columns:
+
+| Priority | Finding | Recommended Action | Effort | Risk | Change Type |
+|---|---|---|:---:|:---:|:---:|
+
+**Column definitions:**
+
+- **Priority**: Numbered sequence (1 = do first). Derive from severity tier and effort — a low-effort critical fix ranks above a high-effort critical fix.
+- **Finding**: The specific gap identified (e.g., "aen-sql-25-d: no Protection Group").
+- **Recommended Action**: The concrete step to take (e.g., "Create PG, add data volumes, configure async replication to sn1-c60-e12-16").
+- **Effort**: `Low` (under 30 min, no dependencies), `Medium` (30 min–2 hrs, some coordination), `High` (multi-step, cross-team, or requires testing).
+- **Risk**: Use one of the following:
+  - `None` — fully online, no impact to running workloads
+  - `Low` — brief metadata operation, no I/O interruption
+  - `Medium` — requires a maintenance window or brief connection drop
+  - `High` — potential for data unavailability; requires coordinated change and rollback plan
+- **Change Type**: `Emergency` (do immediately, outside normal change process), `Planned` (schedule in next maintenance window), `Routine` (next sprint or change cycle).
+
+**After the table**, include a short narrative paragraph summarizing the critical path: which item unblocks others, which items can be parallelized, and whether any items require coordination with teams outside the storage/DBA boundary (e.g., network team for encryption, app team for maintenance window).
+
 ---
 
 ## Proactive & Automation
