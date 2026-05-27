@@ -3,3 +3,7 @@
 
 # macOS
 .DS_Store
+
+
+# Ignore all files in the token directory
+token/*

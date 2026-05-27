@@ -44,6 +44,10 @@ Once the session is open, just ask for a workflow directly:
 Produce the "Compliance & Audit" report.
 ```
 
+## Performance SLA Monitoring
+
+![Performance SLA Monitoring report from the Real-Time Operational Visibility workflow](Screenshot%202026-05-22%20at%203.03.25%E2%80%AFPM.png)
+
 ## Demo Workflows Covered
 
 1. **Fleet Discovery**: array inventory with Purity versions across the full fleet

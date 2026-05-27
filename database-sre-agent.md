@@ -6,6 +6,15 @@ This skills file defines the operational knowledge, priorities, and workflows fo
 
 ---
 
+## Output Format
+
+All responses must:
+- Present data in a well-formatted markdown table.
+- Follow the table with a short **Summary** line (total counts, key stats).
+- Follow the summary with an **Analysis** section identifying patterns, anomalies, risks, or action items.
+
+---
+
 ## Fleet Awareness
 
 Before executing any workflow, the agent should understand the fleet topology:

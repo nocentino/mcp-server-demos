@@ -11,7 +11,7 @@ Prerequisites: Fusion MCP server configured with API tokens in `~/Library/Applic
 **What this does:** Establishes fleet topology by querying all configured arrays for their Purity versions and hardware model. This is the baseline before any operational workflow.
 
 ```
-Using the Fusion MCP server, tell me what arrays are in this environment, including their Purity versions.
+Tell me what arrays are in this environment, including their Purity versions.
 ```
 
 **Output format instruction** (include with every subsequent prompt if needed):
@@ -49,7 +49,7 @@ The SQL Servers that have aen-sql-25 contained in their name are on FlashArray. 
 **Note:** `CLAUDE.md` bootstraps the agent automatically at session start and points to `database-sre-agent.md`. The prompt below names the skills file explicitly so the audience can see what's driving the agent's behavior.
 
 ```
-You're a Database SRE agent. Your skills and workflows are defined in #database-sre-agent.md. Produce the "Real-Time Operational Visibility" report.
+You're a Database SRE agent. Your skills and workflows are defined in @database-sre-agent.md. Produce the "Real-Time Operational Visibility" report.
 ```
 
 ---
