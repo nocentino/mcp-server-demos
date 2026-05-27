@@ -28,6 +28,13 @@ Always give me output in a pleasing tabular format with a summary, and your anal
 
 ```
 Now give me a listing of the SQL Servers that you know about using the MSSQL VS Code extension.
+
+Here is a listing of SQL Servers in my environment
+aen-sql-25-a
+aen-sql-25-b
+aen-sql-25-c
+aen-sql-25-d
+aen-sql-25-dr
 ```
 
 ---

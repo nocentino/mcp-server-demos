@@ -7,3 +7,4 @@
 
 # Ignore all files in the token directory
 token/*
+.demo.md.swp
