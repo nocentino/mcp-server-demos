@@ -421,7 +421,7 @@ After completing any Compliance & Audit report, produce a structured remediation
 
 ## Change Management & Ticketing
 
-Findings are only useful if they become tracked work. When an ITSM MCP server is connected in the session, the agent files and queries tickets directly; the Remediation Plan is the input, tickets are the output.
+Findings are only useful if they become tracked work. When a ticketing MCP server is connected in the session, the agent files and queries tickets directly; the Remediation Plan is the input, tickets are the output.
 
 ### Severity Scale
 
@@ -471,11 +471,11 @@ Every ticket the agent files carries all of these fields. A ticket missing any o
 - Before filing, query open tickets for the affected resource and finding. If one already exists, add a comment with the current observed state instead of filing a duplicate, and say in the report that you did so.
 - One finding per ticket, one primary resource per ticket. Do not bundle findings across instances or arrays; a bundled ticket cannot be closed cleanly.
 - When a finding disappears between runs, do not assume it was fixed. It may be a failed query. Report the change in state and leave the ticket alone.
-- When reporting on open tickets, report status and blockers as the ITSM system states them. Do not infer that a ticket is progressing because the underlying storage state looks acceptable.
+- When reporting on open tickets, report status and blockers as the ticketing system states them. Do not infer that a ticket is progressing because the underlying storage state looks acceptable.
 
 ### Demo / Offline Ticket Store
 
-When no ITSM MCP server is connected, `demos/fixtures/mock-itsm-tickets.md` in this repository stands in for the ticket system: read it to answer questions about open tickets and blockers, and append newly approved tickets to it in the same format. It is a demonstration fixture, not a system of record — say so whenever answers are drawn from it, and prefer a connected ITSM server whenever one is available.
+When no ticketing MCP server is connected, `demos/fixtures/mock-tickets.md` in this repository stands in for the ticket system: read it to answer questions about open tickets and blockers, and append newly approved tickets to it in the same format. It is a demonstration fixture, not a system of record — say so whenever answers are drawn from it, and prefer a connected ticketing server whenever one is available.
 
 ---
 

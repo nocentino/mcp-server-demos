@@ -1,8 +1,8 @@
-# Mock ITSM Ticket Store
+# Mock Ticket Store
 
 **Purpose:** demonstration fixture standing in for a ServiceNow / Jira instance during the Fusion
 MCP demo. It exists so the agent can answer "what tickets are open against the DR array right now,
-and what's blocking them?" without a live ITSM connector.
+and what's blocking them?" without a live ticketing connector.
 
 **This is not a system of record.** Any answer drawn from this file must say so.
 

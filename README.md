@@ -12,7 +12,7 @@ demos/
   demo-script.md           technical walkthrough, 8 steps
   customer-runbook.md      customer run-of-show, 6 steps, with talk tracks
   fixtures/
-    mock-itsm-tickets.md   offline ITSM fixture
+    mock-tickets.md        offline ticketing fixture
 scripts/
   fix-fusion-mcp.sh        de-quarantine a freshly downloaded Fusion MCP binary
 assets/                    screenshots used by this README
@@ -24,7 +24,7 @@ assets/                    screenshots used by this README
 | `database-sre-agent.md` | **The policy file.** Encodes SLA tiers, compliance floors, provisioning standards, fleet topology, change management, and the field traps that prevent false passes. Carries a revision header and changelog — this is the file findings are audited against |
 | `demos/demo-script.md` | 8-step technical walkthrough: prompts with explanations for each workflow. Step 8 is the agent-driven snapshot that exercises the freeze-safety policy — it mutates state and freezes database I/O, so rehearse it first |
 | `demos/customer-runbook.md` | Customer-facing 25-minute run-of-show: prompts, talk tracks, time boxes, fallbacks |
-| `demos/fixtures/mock-itsm-tickets.md` | Offline ITSM fixture so ticket workflows work without a connected ITSM server. **A demonstration fixture, not a system of record** |
+| `demos/fixtures/mock-tickets.md` | Offline ticketing fixture so ticket workflows work without a connected ticketing server. **A demonstration fixture, not a system of record** |
 | `.claude/settings.json` | Project permissions: read-only Fusion tools pre-approved; the four state-mutating tools deliberately left in `ask` so the supervised-action gate is visible and verifiable |
 
 ### Which demo file do I use?

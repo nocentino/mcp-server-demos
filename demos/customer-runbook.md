@@ -52,8 +52,8 @@ Do these the day before, not the morning of.
 - [ ] Screen-record the dry run — that recording is your fallback
 - [ ] Anything in the lab you do *not* want a bank to see (customer names, internal hostnames,
       Slack notifications) closed or renamed
-- [ ] Decide the ITSM story for step 6: real ServiceNow/Jira sandbox, or the local mock in
-      `fixtures/mock-itsm-tickets.md` (11 open tickets with statuses and blockers, enough for prompt C)
+- [ ] Decide the ticketing story for step 6: real ServiceNow/Jira sandbox, or the local mock in
+      `fixtures/mock-tickets.md` (11 open tickets with statuses and blockers, enough for prompt C)
 
 ---
 
@@ -265,10 +265,10 @@ monitoring infrastructure.
 **Their ask:** "Ask about tickets" — the sponsor's very first bullet
 **Box:** 5 minutes
 
-> Needs a second MCP server connected in the same session. Real ITSM sandbox if you can get one;
+> Needs a second MCP server connected in the same session. Real ticketing sandbox if you can get one;
 > a local mock is acceptable and still makes the point. Decide in pre-flight, not live.
 >
-> Fallback mock is `fixtures/mock-itsm-tickets.md`, wired into the skills file under *Change Management &
+> Fallback mock is `fixtures/mock-tickets.md`, wired into the skills file under *Change Management &
 > Ticketing → Demo / Offline Ticket Store*. It carries the DR-array tickets and their blockers, so
 > prompt C answers correctly with no connector at all. Say out loud that it's a fixture.
 
@@ -295,7 +295,7 @@ What tickets are open against the DR array right now, and what's blocking them?
 ### What to point at
 
 - **Two MCP servers, one session, one conversation.** The agent is reading storage state from
-  Fusion and writing work into ITSM without you switching tools or writing glue code.
+  Fusion and writing work into the ticketing system without you switching tools or writing glue code.
 - The preview-before-create step again — reinforcing supervised action for the third time
 - Prompt C answers the sponsor's ask in the *other* direction: not just "create tickets from findings" but
   "tell me about my tickets"
@@ -334,7 +334,7 @@ of that file tracks them.
 | Fleet link down / array unreachable | Keep going and name it. A tool that reports its own blind spots is a feature — you already have language for this in step 1. |
 | Live environment unusable | Switch to the dry-run recording. Say plainly: "this is a recording from yesterday against the same fleet." Never pretend a recording is live. |
 | Model returns a wrong number | Correct it out loud, immediately, and show the raw tool output. Credibility survives a wrong number; it does not survive glossing over one. |
-| ITSM connector fails | Fall back to prompt A only — the remediation plan still lands, and say the ticket integration is a two-line config change you'll show them offline. |
+| Ticketing connector fails | Fall back to prompt A only — the remediation plan still lands, and say the ticket integration is a two-line config change you'll show them offline. |
 | Running long | Cut step 5. Then compress step 4 to the preview only. Never cut step 6. |
 | Someone asks about unreleased MCP capability | Do not speculate. Confirm approved roadmap language with the account team beforehand and use exactly that wording. |
 
