@@ -96,3 +96,102 @@ https://github.com/nocentino/snapshotui Then, use my REST API is at http://aen-d
 ```
 Don't assume the model based on the array's current name. Read it directly from the array.
 ```
+
+---
+
+## Step 8 — Agent-Driven Snapshot with Freeze Safety
+
+**What this does:** Step 6 snapshots a database through the external `snapshotui` REST API — the API
+owns the sequence and the agent just calls it. This step is the opposite: **the agent itself drives
+the I/O freeze**, bound by the freeze-safety rules in `database-sre-agent.md`. It is the only step
+that demonstrates the agent handling an operation where *getting it wrong takes a database offline*.
+
+That is the point of the step. Anything can call a REST endpoint. The interesting question is whether
+the agent understands that `SUSPEND_FOR_SNAPSHOT_BACKUP` never times out on its own, and that a
+failure between suspend and release is an outage rather than a failed job.
+
+> **This mutates state and freezes database I/O.** Rehearse it before showing it. See
+> *Safety and abort* below and know the manual release command before you type the prompt.
+
+### Prerequisites
+
+- A T-SQL path from this machine. `sqlcmd` and `pwsh` + the `SqlServer` module both work.
+  Authenticate however your environment does — never inline a password in the prompt, and see
+  **Credential Handling** in the skills file.
+- The target database's volumes must all share **one** Protection Group. `aen-sql-25-a` satisfies
+  this: all 9 volumes are in `aen-sql-25-a-pg`. If they span PGs the agent must refuse — a snapshot
+  spanning Protection Groups is not crash-consistent.
+- `fetch_tool` with a non-`GET` method is confirmation-gated, so you will get a permission prompt on
+  the `POST`. That prompt *is* part of the demo — do not pre-approve it away.
+
+### Prompt
+
+```
+You're a Database SRE agent. Your skills and workflows are defined in @database-sre-agent.md.
+
+Take an application-consistent snapshot of the TPCC-4T database on aen-sql-25-a using the single
+database snapshot flow. Use sqlcmd for the T-SQL steps. Replicate the snapshot immediately, report
+the actual freeze duration, and confirm the replicated copy landed on the DR array.
+```
+
+Note what the prompt does **not** say. It does not mention the 30-second cap, the guarded block, or
+releasing the freeze on failure. Those are policy, not instruction — they come from the skills file.
+If you have to tell the agent how to be safe in the prompt, the policy file isn't doing its job.
+
+### What the agent should do, in order
+
+1. Resolve the volumes carrying `TPCC-4T` from the `databases` volume tag
+2. Confirm every one of them is in a single Protection Group — **stop here if not**
+3. Confirm no other suspend is already active on the database
+4. `ALTER DATABASE TPCC-4T SET SUSPEND_FOR_SNAPSHOT_BACKUP = ON`
+5. `POST /protection-group-snapshots?source_names=aen-sql-25-a-pg&replicate_now=true`
+6. `BACKUP DATABASE TPCC-4T TO DISK='...' WITH METADATA_ONLY` — **this is what releases the freeze**
+7. Tag `BackupUrl` onto the resulting snapshot
+8. Report the snapshot name, timestamp, freeze duration, and replication status
+
+Steps 5 and 6 are a **guarded block**. On any failure, timeout, or interruption in step 5, the agent
+must run step 6 — or `SET SUSPEND_FOR_SNAPSHOT_BACKUP = OFF` — to release the freeze *before* it
+reports the error.
+
+### What to point at
+
+- **The crash-consistency gate at step 2.** The agent verifies single-PG membership before it touches
+  the database. A script would have snapshotted first and discovered the problem at restore time.
+- **The permission prompt on the `POST`.** Read-only work has run unprompted all demo; the first
+  state-changing call stops and asks. This is the supervised-action model actually working, not
+  asserted on a slide.
+- **The reported freeze duration.** Say: *"that number is the I/O impact window, and it belongs in the
+  change record."* Storage teams rarely get asked for it; auditors increasingly do.
+- **The order of operations on failure.** This is the line that lands:
+  > "If the snapshot call fails, the agent releases the freeze *before* it tells me it failed.
+  > A script that dies between those two steps leaves the database suspended until someone notices."
+
+### Optional — the failure beat
+
+Only if you have rehearsed it and have time. Interrupt the agent between the suspend and the snapshot
+(Esc), or point it at a non-existent Protection Group so the `POST` 404s. The agent should release the
+freeze first, then report. **Verify the database is writable afterwards before moving on.**
+
+This is the most persuasive thirty seconds in the whole demo for a regulated audience, and the most
+likely to go wrong live. Recording it beforehand is a legitimate choice — say plainly that it is a
+recording if you show one.
+
+### Safety and abort
+
+If a freeze is ever left held, release it directly:
+
+```sql
+ALTER DATABASE [TPCC-4T] SET SUSPEND_FOR_SNAPSHOT_BACKUP = OFF;
+```
+
+Check for a held freeze before and after:
+
+```sql
+SELECT database_id, DB_NAME(database_id) AS db, is_suspended_for_snapshot_backup
+FROM   sys.databases WHERE DB_NAME(database_id) = 'TPCC-4T';
+```
+
+Have that release command in a scratch buffer before you start. The multi-database (`mode=group`) and
+whole-instance (`mode=server`) flows raise the stakes: a `mode=server` freeze suspends **every**
+database on the instance, and the `GROUP`/`SERVER` backup must run on the same connection that issued
+the suspend. Do not demo those live.

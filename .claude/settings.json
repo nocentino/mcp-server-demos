@@ -1,14 +1,23 @@
 {
   "permissions": {
     "allow": [
-      "mcp__fusion-mcp__fetch",
-      "mcp__fusion-mcp__arrays_performance",
-      "mcp__fusion-mcp__volumes_list",
-      "mcp__fusion-mcp__fleet_overview",
-      "mcp__fusion-mcp__arrays_list",
-      "mcp__fusion-mcp__docs_endpoint",
-      "mcp__fusion-mcp__docs_get",
-      "mcp__fusion-mcp__filesystems_list"
+      "mcp__fusion-mcp__get_documentation",
+      "mcp__fusion-mcp__get_endpoint_documentation",
+      "mcp__fusion-mcp__list_arrays",
+      "mcp__fusion-mcp__get_fleet_overview",
+      "mcp__fusion-mcp__get_volumes_multi_tool",
+      "mcp__fusion-mcp__get_filesystems_multi_tool",
+      "mcp__fusion-mcp__get_arrays_performance_multi_tool",
+      "mcp__fusion-mcp__get_workloads",
+      "mcp__fusion-mcp__get_workload_presets",
+      "mcp__fusion-mcp__preset_schema",
+      "mcp__fusion-mcp__fetch_tool"
+    ],
+    "ask": [
+      "mcp__fusion-mcp__presets_create",
+      "mcp__fusion-mcp__presets_update",
+      "mcp__fusion-mcp__workloads_deploy",
+      "mcp__fusion-mcp__create_placement_recommendation"
     ]
   }
 }

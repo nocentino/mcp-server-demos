@@ -5,6 +5,15 @@
 .DS_Store
 
 
-# Ignore all files in the token directory
+# API tokens / credentials — never commit.
+# 'token/*' alone only matches a DIRECTORY's contents; a file named 'token'
+# at the repo root slipped past it and would be staged by `git add -A`.
+token
+token/
 token/*
+*.token
+auth-config.json
 .demo.md.swp
+
+# Generated demo artifact — regenerate from the step 5 prompt, don't commit
+flashblade-dashboard.html

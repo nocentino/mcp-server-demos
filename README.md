@@ -7,9 +7,11 @@ Demo scripts and skills files for using [Claude Code](https://claude.ai/code) as
 | File | Description |
 |---|---|
 | `CLAUDE.md` | Auto-loaded by Claude Code at session start: bootstraps the agent and points to `database-sre-agent.md` |
-| `database-sre-agent.md` | Database SRE skills file: encodes SLA tiers, compliance policy, fleet topology, and operational workflows |
-| `demo.md` | Step-by-step demo script: prompts with explanations for each workflow |
-| `.claude/settings.json` | Claude Code project permissions: pre-approves the Fusion MCP tools needed for the demo |
+| `database-sre-agent.md` | **The policy file.** Encodes SLA tiers, compliance floors, provisioning standards, fleet topology, change management, and the field traps that prevent false passes. Carries a revision header and changelog — this is the file findings are audited against |
+| `demo.md` | 8-step demo script: prompts with explanations for each workflow. Step 8 is the agent-driven snapshot that exercises the freeze-safety policy — it mutates state and freezes database I/O, so rehearse it first |
+| `demo-runbook.md` | Customer-facing 6-step run-of-show: prompts, talk tracks, time boxes, fallbacks. **Diverges from `demo.md` in step numbering and prompt wording — pick one before presenting** |
+| `mock-itsm-tickets.md` | Offline ITSM fixture so ticket workflows work without a connected ITSM server. **A demonstration fixture, not a system of record** |
+| `.claude/settings.json` | Project permissions: read-only Fusion tools pre-approved; the four state-mutating tools deliberately left in `ask` so the supervised-action gate is visible and verifiable |
 
 ## Prerequisites
 
@@ -26,8 +28,11 @@ Each entry in `auth-config.json` needs a valid API token for the target array.
 ## Running the Demo
 
 1. Open this folder in VS Code with the Claude Code extension active.
-2. The `.claude/settings.json` file pre-approves all required MCP tool calls so you won't be prompted for each one.
-3. Work through the prompts in `demo.md` in order. Each prompt builds on the previous one.
+2. `.claude/settings.json` pre-approves the read-only Fusion tools so you are not prompted for each one.
+   The four state-mutating tools (`presets_create`, `presets_update`, `workloads_deploy`,
+   `create_placement_recommendation`) are in `ask` on purpose — the permission prompt *is* the
+   governance demo, and a reviewer can verify the gate by reading the file.
+3. Work through the prompts in `demo.md` (or `demo-runbook.md`) in order. Each builds on the previous.
 
 ## The Skills File
 
@@ -37,6 +42,16 @@ Each entry in `auth-config.json` needs a valid API token for the target array.
 - **Performance SLA tiers**: Tier 1 (OLTP) < 0.5ms, Tier 2 (general DB) < 2ms, Tier 3 (batch) < 10ms
 - **Compliance policy**: Protection Group requirements, snapshot schedules, retention minimums, encryption requirements, volume tagging schema
 - **Operational workflows**: Real-Time Operational Visibility, Compliance & Audit, Blast Radius Analysis, Snapshot & Recovery, DR Readiness Check
+- **FlashBlade file & object compliance**: database backup landing zones, immutability (versioning, Object Lock, retention lock), SafeMode, and the binding rule that every SQL backup landing zone must replicate to the DR site
+- **Provisioning standards & presets**: what a Tier 1/2/3 workload looks like, and the rule that presets are proposed and previewed, never applied without approval
+- **Change management**: severity scale, ticket format, which severities file automatically, and the rule that no existing ticket is closed or reprioritised without approval
+- **Field traps**: every field whose plain reading produces a confident wrong answer — retention that reports 7 days while holding 3, SafeMode's inverted boolean, replica links reporting `idle` at 480 days of lag, paginated totals understating an array by 48x
+
+### Why the traps section matters
+
+Each entry exists because the field's obvious reading produced a wrong answer against a real fleet. A
+compliance report that says PASS when the answer is FAIL is worse than no report, so the policy file
+requires the traps be checked before any pass, zero, or empty result is written.
 
 Once the session is open, just ask for a workflow directly:
 
