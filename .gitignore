@@ -4,16 +4,21 @@
 # macOS
 .DS_Store
 
-
-# API tokens / credentials — never commit.
-# 'token/*' alone only matches a DIRECTORY's contents; a file named 'token'
-# at the repo root slipped past it and would be staged by `git add -A`.
+# ---------------------------------------------------------------------------
+# Credentials — never commit.
+# 'token/' holds the Pure1 API key pair, the token-refresh scripts, and their
+# log. The scripts are deliberately kept untracked too: refresh_pure1_token.sh
+# hardcodes a Pure1 API key ID. Parameterise that before tracking them.
+# ---------------------------------------------------------------------------
 token
 token/
 token/*
 *.token
+*.pem
 auth-config.json
-.demo.md.swp
 
-# Generated demo artifact — regenerate from the step 5 prompt, don't commit
+# Editor swap files
+.*.sw[a-p]
+
+# Generated demo artifact — regenerate from the run-book step 5 prompt, don't commit
 flashblade-dashboard.html

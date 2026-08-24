@@ -1,8 +1,16 @@
 # Database SRE Agent Demo
 ## Claude Code + Pure Storage Fusion MCP Server
 
+**Audience:** technical — you, a colleague, or a hands-on engineer at a whiteboard
+**Covers:** fleet and SQL Server discovery, volume correlation, operational visibility, snapshots
+**Companion:** [`customer-runbook.md`](customer-runbook.md) — the customer-facing 25-minute
+run-of-show. It is a *different demo*, not a different numbering of this one: it covers config
+drift, presets, dashboards, and ticketing, and adds talk tracks and time boxes. Only fleet discovery
+and compliance & audit appear in both. Use this file to learn the workflows; use the run-book to
+present them.
+
 This demo walks through using Claude Code as a Database SRE agent against a live Pure Storage fleet.
-Prerequisites: Fusion MCP server configured with API tokens in `~/Library/Application Support/mcp-servers/fusion-mcp/auth-config.json`, and the `database-sre-agent.md` skills file in the project directory.
+Prerequisites: Fusion MCP server configured with API tokens in `~/Library/Application Support/mcp-servers/fusion-mcp/auth-config.json`, and the `database-sre-agent.md` skills file in the repository root.
 
 ---
 

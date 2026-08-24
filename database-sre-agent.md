@@ -475,7 +475,7 @@ Every ticket the agent files carries all of these fields. A ticket missing any o
 
 ### Demo / Offline Ticket Store
 
-When no ITSM MCP server is connected, `mock-itsm-tickets.md` in this repository stands in for the ticket system: read it to answer questions about open tickets and blockers, and append newly approved tickets to it in the same format. It is a demonstration fixture, not a system of record — say so whenever answers are drawn from it, and prefer a connected ITSM server whenever one is available.
+When no ITSM MCP server is connected, `demos/fixtures/mock-itsm-tickets.md` in this repository stands in for the ticket system: read it to answer questions about open tickets and blockers, and append newly approved tickets to it in the same format. It is a demonstration fixture, not a system of record — say so whenever answers are drawn from it, and prefer a connected ITSM server whenever one is available.
 
 ---
 

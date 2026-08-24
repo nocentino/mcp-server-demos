@@ -5,6 +5,9 @@
 **Segment:** 25 minutes, live, inside the 60-minute session
 **Driver:** Anthony Nocentino
 **Environment:** lab fleet — 6 FlashArray, 2 FlashBlade, 2 sites, 3 AZs, 5 SQL Server instances
+**Companion:** [`demo-script.md`](demo-script.md) — the technical walkthrough. It is a *different
+demo*, not a different numbering of this one: it covers SQL Server discovery, volume correlation,
+and application-consistent snapshots. Only fleet discovery and compliance & audit appear in both.
 
 ---
 
@@ -15,8 +18,9 @@ the output, and a time box. The right-hand column of the *Demo: Run of Show* sli
 ask each step answers — say that ask out loud before you type. That is what keeps this from
 becoming a product tour.
 
-Steps 1–3 exist today in `database-sre-agent.md`. Steps 4–6 need work before the meeting — see
-[Pre-flight](#pre-flight) and [Skills-file additions](#skills-file-additions-needed).
+All six steps are backed by workflows in `../database-sre-agent.md`. Before the meeting, work
+[Pre-flight](#pre-flight) and the two open checks in
+[Skills-file dependencies](#skills-file-dependencies).
 
 **Time discipline:** if you are past 12 minutes at the end of step 3, cut step 5 (dashboard) and
 go straight to step 6 (tickets). Tickets were the sponsor's first ask; the dashboard is a nice-to-have.
@@ -49,7 +53,7 @@ Do these the day before, not the morning of.
 - [ ] Anything in the lab you do *not* want a bank to see (customer names, internal hostnames,
       Slack notifications) closed or renamed
 - [ ] Decide the ITSM story for step 6: real ServiceNow/Jira sandbox, or the local mock in
-      `mock-itsm-tickets.md` (11 open tickets with statuses and blockers, enough for prompt C)
+      `fixtures/mock-itsm-tickets.md` (11 open tickets with statuses and blockers, enough for prompt C)
 
 ---
 
@@ -264,7 +268,7 @@ monitoring infrastructure.
 > Needs a second MCP server connected in the same session. Real ITSM sandbox if you can get one;
 > a local mock is acceptable and still makes the point. Decide in pre-flight, not live.
 >
-> Fallback mock is `mock-itsm-tickets.md`, wired into the skills file under *Change Management &
+> Fallback mock is `fixtures/mock-itsm-tickets.md`, wired into the skills file under *Change Management &
 > Ticketing → Demo / Offline Ticket Store*. It carries the DR-array tickets and their blockers, so
 > prompt C answers correctly with no connector at all. Say out loud that it's a fixture.
 
@@ -305,39 +309,21 @@ owns. Nothing you saw required custom code from us."
 
 ---
 
-## Skills-file additions needed
+## Skills-file dependencies
 
-`database-sre-agent.md` covers steps 1–3 well. Steps 4–6 will behave inconsistently without
-encoding a few more things.
+Steps 1–3 rely on workflows that have been in `../database-sre-agent.md` since the original demo.
+Steps 4–6 rely on four sections added 2026-08-19: *Provisioning Standards* and *Presets* under
+Proactive & Automation, *Reporting & Dashboards* after Output Format, and *Change Management &
+Ticketing* after Compliance & Audit. All four are in the policy file now — the changelog at the top
+of that file tracks them.
 
-**Status: drafted 2026-08-19.** All three are now in `database-sre-agent.md` — *Provisioning
-Standards* and *Presets* under Proactive & Automation, *Reporting & Dashboards* after Output Format,
-and *Change Management & Ticketing* after Compliance & Audit. Read them before the dry run and
-correct any tier value that doesn't match how the lab is actually built — the tier table asserts QoS
-limits and retention targets that need a sanity check against reality. What each section covers:
+**Two things still need a human check before the dry run:**
 
-**Provisioning standards** (for step 4)
-- What a Tier 1 / Tier 2 / Tier 3 workload looks like: QoS, protection group settings, snapshot
-  interval, local and remote retention, replication targets
-- Naming and tagging requirements any new workload must satisfy
-- The rule that presets are proposed and previewed, never applied without approval
-
-**Reporting and output formats** (for step 5)
-- That dashboards should be single-file HTML with no external dependencies
-- Which metrics matter per platform, and that FlashBlade telemetry is in scope — your current
-  skills file is FlashArray/block-centric and the FB path is under-exercised
-- The microsecond-to-millisecond conversion rule already in the file applies here too
-
-**Change management** (for step 6)
-- Ticket format: title, affected resource, finding, recommended action, severity, effort, risk,
-  change type (Emergency vs. Planned)
-- Which severities get tickets automatically vs. which need a human decision
-- That the agent never closes or reprioritizes an existing ticket without approval
-
-**One correction worth making anyway:** the `//C` snapshot-target array reads as a 49% snapshot
-share anomaly because the skills file doesn't know it's a snapshot target. You flagged this in the
-blog post. Fix it before showing a bank a false positive — it's a small edit and it's exactly the
-kind of thing they'll poke at.
+1. **Tier values.** The provisioning tier table asserts QoS limits and retention targets. Verify each
+   against how the lab is actually built and correct any that don't match.
+2. **The `//C` snapshot-target array.** It reads as a 49% snapshot-share anomaly because the policy
+   file doesn't know it is a snapshot target. This was flagged in the blog post. Fix it before
+   showing a bank a false positive — it is a small edit and exactly the kind of thing they will poke at.
 
 ---
 
@@ -381,7 +367,7 @@ Pull this thread hard if it comes up. It's the largest opportunity in the accoun
 ## Note on sources
 
 Built from the workflow list in the `mcp-server-demos` README, the two prompts published in the
-July 17 blog post, and the run-of-show on the deck's demo slide. I could not read `demo.md`
+July 17 blog post, and the run-of-show on the deck's demo slide. I could not read `demo-script.md`
 directly — GitHub blocks automated source access — so **reconcile the exact prompt wording against
-your own `demo.md` before the dry run.** Prompts for steps 4, 5, and 6 are new and have not been
+your own `demo-script.md` before the dry run.** Prompts for steps 4, 5, and 6 are new and have not been
 run anywhere; treat them as drafts to test, not as known-good.

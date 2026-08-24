@@ -4,14 +4,49 @@ Demo scripts and skills files for using [Claude Code](https://claude.ai/code) as
 
 ## What's in This Repo
 
+```
+CLAUDE.md                  bootstrap — auto-loaded by Claude Code at session start
+database-sre-agent.md      the policy file the agent is audited against
+.claude/settings.json      project permissions (read-only allowed, mutating tools gated)
+demos/
+  demo-script.md           technical walkthrough, 8 steps
+  customer-runbook.md      customer run-of-show, 6 steps, with talk tracks
+  fixtures/
+    mock-itsm-tickets.md   offline ITSM fixture
+scripts/
+  fix-fusion-mcp.sh        de-quarantine a freshly downloaded Fusion MCP binary
+assets/                    screenshots used by this README
+```
+
 | File | Description |
 |---|---|
 | `CLAUDE.md` | Auto-loaded by Claude Code at session start: bootstraps the agent and points to `database-sre-agent.md` |
 | `database-sre-agent.md` | **The policy file.** Encodes SLA tiers, compliance floors, provisioning standards, fleet topology, change management, and the field traps that prevent false passes. Carries a revision header and changelog — this is the file findings are audited against |
-| `demo.md` | 8-step demo script: prompts with explanations for each workflow. Step 8 is the agent-driven snapshot that exercises the freeze-safety policy — it mutates state and freezes database I/O, so rehearse it first |
-| `demo-runbook.md` | Customer-facing 6-step run-of-show: prompts, talk tracks, time boxes, fallbacks. **Diverges from `demo.md` in step numbering and prompt wording — pick one before presenting** |
-| `mock-itsm-tickets.md` | Offline ITSM fixture so ticket workflows work without a connected ITSM server. **A demonstration fixture, not a system of record** |
+| `demos/demo-script.md` | 8-step technical walkthrough: prompts with explanations for each workflow. Step 8 is the agent-driven snapshot that exercises the freeze-safety policy — it mutates state and freezes database I/O, so rehearse it first |
+| `demos/customer-runbook.md` | Customer-facing 25-minute run-of-show: prompts, talk tracks, time boxes, fallbacks |
+| `demos/fixtures/mock-itsm-tickets.md` | Offline ITSM fixture so ticket workflows work without a connected ITSM server. **A demonstration fixture, not a system of record** |
 | `.claude/settings.json` | Project permissions: read-only Fusion tools pre-approved; the four state-mutating tools deliberately left in `ask` so the supervised-action gate is visible and verifiable |
+
+### Which demo file do I use?
+
+They are **two different demos**, not two versions of one. Only fleet discovery and compliance &
+audit appear in both.
+
+| Workflow | `demos/demo-script.md` | `demos/customer-runbook.md` |
+|---|:---:|:---:|
+| Fleet discovery | Step 1 | Step 1 |
+| SQL Server discovery (MSSQL extension) | Step 2 | — |
+| SQL Server volume discovery | Step 3 | — |
+| Real-Time Operational Visibility | Step 4 | — |
+| Compliance & Audit | Step 5 | Step 2 |
+| Application-consistent snapshot | Steps 6–8 | — |
+| Config drift & security posture | — | Step 3 |
+| Preset creation | — | Step 4 |
+| Dashboard build | — | Step 5 |
+| Ticket the findings | — | Step 6 |
+
+Learning the workflows or testing a change to the policy file → `demo-script.md`.
+Presenting to a customer on a clock → `customer-runbook.md`.
 
 ## Prerequisites
 
@@ -32,7 +67,7 @@ Each entry in `auth-config.json` needs a valid API token for the target array.
    The four state-mutating tools (`presets_create`, `presets_update`, `workloads_deploy`,
    `create_placement_recommendation`) are in `ask` on purpose — the permission prompt *is* the
    governance demo, and a reviewer can verify the gate by reading the file.
-3. Work through the prompts in `demo.md` (or `demo-runbook.md`) in order. Each builds on the previous.
+3. Work through the prompts in `demos/demo-script.md` or `demos/customer-runbook.md` in order. Each builds on the previous — see [Which demo file do I use?](#which-demo-file-do-i-use) to pick.
 
 ## The Skills File
 
@@ -61,7 +96,7 @@ Produce the "Compliance & Audit" report.
 
 ## Performance SLA Monitoring
 
-![Performance SLA Monitoring report from the Real-Time Operational Visibility workflow](Screenshot%202026-05-22%20at%203.03.25%E2%80%AFPM.png)
+![Performance SLA Monitoring report from the Real-Time Operational Visibility workflow](assets/performance-sla-monitoring.png)
 
 ## Demo Workflows Covered
 
