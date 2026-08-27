@@ -32,18 +32,28 @@ assets/                    screenshots used by this README
 They are **two different demos**, not two versions of one. Only fleet discovery and compliance &
 audit appear in both.
 
-| Workflow | `demos/demo-script.md` | `demos/customer-runbook.md` |
+**`demos/demo-script.md`**
+
+| Workflow | Step | Recording
 |---|:---:|:---:|
-| Fleet discovery | Step 1 | Step 1 |
-| SQL Server discovery (MSSQL extension) | Step 2 | — |
-| SQL Server volume discovery | Step 3 | — |
-| Real-Time Operational Visibility | Step 4 | — |
-| Compliance & Audit | Step 5 | Step 2 |
-| Application-consistent snapshot | Steps 6–8 | — |
-| Config drift & security posture | — | Step 3 |
-| Preset creation | — | Step 4 |
-| Dashboard build | — | Step 5 |
-| Ticket the findings | — | Step 6 |
+| Fleet discovery | 1 | [Recording](https://youtu.be/pkuaoYiBPZc)
+| SQL Server discovery (MSSQL extension) | 2 | [Recording](https://youtu.be/WoZF_fHoCEY)
+| Real-Time Operational Visibility | 3 | [Recording](https://youtu.be/6o24gE37fLU)
+| Application-consistent snapshot | 4 | [Recording](https://youtu.be/5grbnU82Ics)
+
+**`demos/customer-runbook.md`**
+
+| Workflow | Step | Recording
+|---|:---:|:---:|
+| Fleet discovery | 1 | [Recording](https://youtu.be/U_XtkOfkg5A)
+| Compliance & Audit | 2 | [Recording](https://youtu.be/zgoosBMDtxw)
+| Config drift & security posture | 3 | [Recording](https://youtu.be/a0glHrqhcbQ)
+| Preset creation | 4 | [Recording](https://youtu.be/LzW_WXOBOxs)
+| Dashboard build | 5 | [Recording](https://youtu.be/Ml1WAhL6f0U)
+| Build a Remediation Plan | 6 | [Recording](https://youtu.be/CWoODgFupGI)
+| Generate Tickets for the Remediation Plan | 7 | [Recording](https://youtu.be/CWoODgFupGI)
+| Isolate Tickets Impacting our DR Array | 8 | [Recording](https://youtu.be/hsoEVKYmrBk)
+
 
 Learning the workflows or testing a change to the policy file → `demo-script.md`.
 Presenting to a customer on a clock → `customer-runbook.md`.
