@@ -34,7 +34,7 @@ audit appear in both.
 
 **`demos/demo-script.md`**
 
-| Workflow | Step | Recording
+| Workflow | Step | Recordings (no audio)
 |---|:---:|:---:|
 | Fleet discovery | 1 | [Recording](https://youtu.be/pkuaoYiBPZc)
 | SQL Server discovery (MSSQL extension) | 2 | [Recording](https://youtu.be/WoZF_fHoCEY)
@@ -43,7 +43,7 @@ audit appear in both.
 
 **`demos/customer-runbook.md`**
 
-| Workflow | Step | Recording
+| Workflow | Step | Recording (no audio)
 |---|:---:|:---:|
 | Fleet discovery | 1 | [Recording](https://youtu.be/U_XtkOfkg5A)
 | Compliance & Audit | 2 | [Recording](https://youtu.be/zgoosBMDtxw)
