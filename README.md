@@ -6,7 +6,17 @@ Demo scripts and skills files for using [Claude Code](https://claude.ai/code) as
 
 ```
 CLAUDE.md                  bootstrap — auto-loaded by Claude Code at session start
-database-sre-agent.md      the policy file the agent is audited against
+skills/                    the policy the agent is audited against, one topic per file
+  00-global.md             persona, guardrails, output rules, changelog — always loaded
+  00-reference.md          fleet/zone topology, field traps, formulas, API notes — always loaded
+  01-fleet-awareness.md    session-start topology check, coverage gaps, query scoping
+  02-compliance-audit.md   Protection Group / FlashBlade compliance, drift, remediation plan
+  03-provisioning.md       tier standards, presets, workload placement, pre-deployment snapshots
+  04-operational-visibility.md   health, alerts, capacity, performance SLA
+  05-ticketing.md          severity scale, ticket format, auto-filing rules
+  06-incident-response.md blast radius, snapshot/recovery freeze safety, escalation
+  07-dr-readiness.md       the RPO/RTO recovery pass-fail check
+  08-volume-mapping.md     database data file → FlashArray volume correlation
 .claude/settings.json      project permissions (read-only allowed, mutating tools gated)
 demos/
   demo-script.md           technical walkthrough, 8 steps
@@ -20,8 +30,10 @@ assets/                    screenshots used by this README
 
 | File | Description |
 |---|---|
-| `CLAUDE.md` | Auto-loaded by Claude Code at session start: bootstraps the agent and points to `database-sre-agent.md` |
-| `database-sre-agent.md` | **The policy file.** Encodes SLA tiers, compliance floors, provisioning standards, fleet topology, change management, and the field traps that prevent false passes. Carries a revision header and changelog — this is the file findings are audited against |
+| `CLAUDE.md` | Auto-loaded by Claude Code at session start: bootstraps the agent and points to `skills/00-global.md` |
+| `skills/00-global.md` | **The policy entry point.** Persona, output/reporting rules, credential handling, the routing table for the rest of `skills/`, and the revision header + changelog — this is the file findings are audited against |
+| `skills/00-reference.md` | Shared lookup material every topic file cites: fleet/zone topology, Key Formulas & Units, API Notes, and the field traps that prevent false passes |
+| `skills/01-fleet-awareness.md` … `skills/08-volume-mapping.md` | One topic per file — see the routing table in `skills/00-global.md` for which to load for a given task |
 | `demos/demo-script.md` | 8-step technical walkthrough: prompts with explanations for each workflow. Step 8 is the agent-driven snapshot that exercises the freeze-safety policy — it mutates state and freezes database I/O, so rehearse it first |
 | `demos/customer-runbook.md` | Customer-facing 25-minute run-of-show: prompts, talk tracks, time boxes, fallbacks |
 | `demos/fixtures/mock-tickets.md` | Offline ticketing fixture so ticket workflows work without a connected ticketing server. **A demonstration fixture, not a system of record** |
@@ -79,9 +91,9 @@ Each entry in `auth-config.json` needs a valid API token for the target array.
    governance demo, and a reviewer can verify the gate by reading the file.
 3. Work through the prompts in `demos/demo-script.md` or `demos/customer-runbook.md` in order. Each builds on the previous — see [Which demo file do I use?](#which-demo-file-do-i-use) to pick.
 
-## The Skills File
+## The Skills Files
 
-`database-sre-agent.md` is what turns Claude Code from a generic assistant into a Database SRE agent. `CLAUDE.md` is read automatically at session start and bootstraps the agent by pointing Claude Code to `database-sre-agent.md`. It encodes:
+`skills/` is what turns Claude Code from a generic assistant into a Database SRE agent. `CLAUDE.md` is read automatically at session start and bootstraps the agent by pointing it to `skills/00-global.md`, which always loads alongside `skills/00-reference.md` and then routes to whichever topic file the task needs. Together they encode:
 
 - **Fleet topology**: which arrays are in which availability zones, site assignments, HA placement rules for SQL Server pairs
 - **Performance SLA tiers**: Tier 1 (OLTP) < 0.5ms, Tier 2 (general DB) < 2ms, Tier 3 (batch) < 10ms
@@ -95,7 +107,7 @@ Each entry in `auth-config.json` needs a valid API token for the target array.
 ### Why the traps section matters
 
 Each entry exists because the field's obvious reading produced a wrong answer against a real fleet. A
-compliance report that says PASS when the answer is FAIL is worse than no report, so the policy file
+compliance report that says PASS when the answer is FAIL is worse than no report, so `skills/00-reference.md`
 requires the traps be checked before any pass, zero, or empty result is written.
 
 Once the session is open, just ask for a workflow directly:

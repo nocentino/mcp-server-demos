@@ -10,11 +10,13 @@ and compliance & audit appear in both. Use this file to learn the workflows; use
 present them.
 
 This demo walks through using Claude Code as a Database SRE agent against a live Pure Storage fleet.
-Prerequisites: Fusion MCP server configured with API tokens in `~/Library/Application Support/mcp-servers/fusion-mcp/auth-config.json`, and the `database-sre-agent.md` skills file in the repository root.
+Prerequisites: Fusion MCP server configured with API tokens in `~/Library/Application Support/mcp-servers/fusion-mcp/auth-config.json`, and the `skills/` directory in the repository root (see [`skills/00-global.md`](../skills/00-global.md) for the full routing table).
 
 ---
 
 ## Step 1 — Fleet Discovery
+
+**Skill file:** [`skills/01-fleet-awareness.md`](../skills/01-fleet-awareness.md)
 
 **What this does:** Establishes fleet topology by querying all configured arrays for their Purity versions and hardware model. This is the baseline before any operational workflow.
 
@@ -49,6 +51,8 @@ aen-sql-25-dr
 
 ## Step 3 — SQL Server Volume Discovery on FlashArray
 
+**Skill file:** [`skills/01-fleet-awareness.md`](../skills/01-fleet-awareness.md) — Query Scoping
+
 **What this does:** Correlates SQL Server instance names to FlashArray volumes. Since the SQL Servers are VMware VMs using vVols, the SQL instance name is embedded in the FlashArray volume name. The prompt instructs the agent to use array-side REST `contains` filtering instead of pulling all volumes locally — important for large fleets.
 
 ```
@@ -59,19 +63,23 @@ The SQL Servers that have aen-sql-25 contained in their name are on FlashArray. 
 
 ## Step 4 — Real-Time Operational Visibility Report
 
+**Skill file:** [`skills/04-operational-visibility.md`](../skills/04-operational-visibility.md)
+
 **What this does:** Runs the Real-Time Operational Visibility workflow covering hardware health, active alerts, capacity utilization, and performance against tier SLA thresholds.
 
-**Note:** `CLAUDE.md` bootstraps the agent automatically at session start and points to `database-sre-agent.md`. The prompt below names the skills file explicitly so the audience can see what's driving the agent's behavior.
+**Note:** `CLAUDE.md` bootstraps the agent automatically at session start and points to `skills/00-global.md`. The prompt below names the specific skill file explicitly so the audience can see what's driving the agent's behavior.
 
 ```
-You're a Database SRE agent. Your skills and workflows are defined in @database-sre-agent.md. Produce the "Real-Time Operational Visibility" report.
+You're a Database SRE agent. Your skills and workflows are defined in @skills/04-operational-visibility.md. Produce the "Real-Time Operational Visibility" report.
 ```
 
 ---
 
 ## Step 5 — Compliance & Audit Report
 
-**What this does:** Runs the Compliance & Audit workflow defined in the skills file. The agent checks every SQL Server instance for: Protection Group assignment, active replication, replication encryption, snapshot schedule frequency, retention policy compliance, volume tagging completeness, PG tagging, HA placement across availability zones, and configuration drift (Purity version skew, degraded replication links).
+**Skill file:** [`skills/02-compliance-audit.md`](../skills/02-compliance-audit.md)
+
+**What this does:** Runs the Compliance & Audit workflow defined in that skill file. The agent checks every SQL Server instance for: Protection Group assignment, active replication, replication encryption, snapshot schedule frequency, retention policy compliance, volume tagging completeness, PG tagging, HA placement across availability zones, and configuration drift (Purity version skew, degraded replication links).
 
 ```
 Great, now do the "Compliance & Audit" report
@@ -109,9 +117,11 @@ Don't assume the model based on the array's current name. Read it directly from 
 
 ## Step 8 — Agent-Driven Snapshot with Freeze Safety
 
+**Skill file:** [`skills/06-incident-response.md`](../skills/06-incident-response.md) — Snapshot & Recovery, freeze safety
+
 **What this does:** Step 6 snapshots a database through the external `snapshotui` REST API — the API
 owns the sequence and the agent just calls it. This step is the opposite: **the agent itself drives
-the I/O freeze**, bound by the freeze-safety rules in `database-sre-agent.md`. It is the only step
+the I/O freeze**, bound by the freeze-safety rules in `skills/06-incident-response.md`. It is the only step
 that demonstrates the agent handling an operation where *getting it wrong takes a database offline*.
 
 That is the point of the step. Anything can call a REST endpoint. The interesting question is whether
@@ -125,7 +135,7 @@ failure between suspend and release is an outage rather than a failed job.
 
 - A T-SQL path from this machine. `sqlcmd` and `pwsh` + the `SqlServer` module both work.
   Authenticate however your environment does — never inline a password in the prompt, and see
-  **Credential Handling** in the skills file.
+  **Credential Handling** in [`skills/00-global.md`](../skills/00-global.md).
 - The target database's volumes must all share **one** Protection Group. `aen-sql-25-a` satisfies
   this: all 9 volumes are in `aen-sql-25-a-pg`. If they span PGs the agent must refuse — a snapshot
   spanning Protection Groups is not crash-consistent.
@@ -135,7 +145,8 @@ failure between suspend and release is an outage rather than a failed job.
 ### Prompt
 
 ```
-You're a Database SRE agent. Your skills and workflows are defined in @database-sre-agent.md.
+You're a Database SRE agent. Your skills and workflows are defined in @skills/00-global.md and
+@skills/06-incident-response.md.
 
 Take an application-consistent snapshot of the TPCC-4T database on aen-sql-25-a using the single
 database snapshot flow. Use sqlcmd for the T-SQL steps. Replicate the snapshot immediately, report

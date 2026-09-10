@@ -18,8 +18,8 @@ the output, and a time box. The right-hand column of the *Demo: Run of Show* sli
 ask each step answers — say that ask out loud before you type. That is what keeps this from
 becoming a product tour.
 
-All six steps are backed by workflows in `../database-sre-agent.md`. Before the meeting, work
-[Pre-flight](#pre-flight) and the two open checks in
+All six steps are backed by workflows in `../skills/`. Each step below names the specific skill
+file(s) it exercises. Before the meeting, work [Pre-flight](#pre-flight) and the two open checks in
 [Skills-file dependencies](#skills-file-dependencies).
 
 **Time discipline:** if you are past 12 minutes at the end of step 3, cut step 5 (dashboard) and
@@ -41,7 +41,7 @@ Do these the day before, not the morning of.
       permission prompts on a shared screen
 - [ ] Both FlashBlades reachable and returning file/object data — the FB story is the point of
       this meeting and your blog post explicitly scoped them out
-- [ ] Fresh session, `CLAUDE.md` loading `database-sre-agent.md` at start
+- [ ] Fresh session, `CLAUDE.md` loading `skills/00-global.md` at start
 - [ ] **Run step 1 before they are in the room, in the session you will present from.** Steps 1 and 2
       re-derive the same fleet facts, so this recovers the full 2-minute box and gives step 2 topology
       already in context. Open on step 2 and scroll back: *"I established topology before we started —
@@ -61,11 +61,12 @@ Do these the day before, not the morning of.
 
 **Their ask:** sets the FlashBlade context
 **Box:** 2 minutes
+**Skill file:** [`skills/01-fleet-awareness.md`](../skills/01-fleet-awareness.md)
 
 ### Prompt
 
 ```
-You're a Database SRE agent. Your skills and workflows are defined in @database-sre-agent.md.
+You're a Database SRE agent. Your skills and workflows are defined in @skills/01-fleet-awareness.md.
 Establish fleet topology: list every array, its type, site, availability zone, Purity version,
 fleet membership, and API access method. Include both FlashArrays and FlashBlades.
 ```
@@ -93,6 +94,7 @@ Do not linger on Purity versions here — that's step 3's material.
 
 **Their ask:** "Make sure replication is set up"
 **Box:** 6 minutes — this is the centerpiece, give it room
+**Skill file:** [`skills/02-compliance-audit.md`](../skills/02-compliance-audit.md)
 
 ### Prompt A — coverage
 
@@ -155,6 +157,7 @@ read and diff. Offer to scroll the raw tool output for any single finding they p
 
 **Their ask:** config drift / security posture
 **Box:** 3 minutes
+**Skill file:** [`skills/02-compliance-audit.md`](../skills/02-compliance-audit.md) — Configuration Drift Detection
 
 ### Prompt
 
@@ -198,6 +201,7 @@ prompts every time, so it can run weekly — or on a schedule with no human in t
 
 **Their ask:** templates for provisioning
 **Box:** 4 minutes
+**Skill file:** [`skills/03-provisioning.md`](../skills/03-provisioning.md) — Presets
 
 > **Verify this works in dry run.** Preset creation is a Fusion MCP guided action. Confirm the
 > tool is exposed in your build and that the agent will *propose* rather than *apply*.
@@ -234,6 +238,7 @@ That closes the loop between provisioning standards and drift detection in one b
 
 **Their ask:** metrics into a dashboard / their monitoring platform has no FlashBlade support
 **Box:** 4 minutes
+**Skill file:** [`skills/04-operational-visibility.md`](../skills/04-operational-visibility.md) for the metrics, [`skills/00-global.md`](../skills/00-global.md) — Dashboards for the output rules
 
 ### Prompt
 
@@ -264,12 +269,13 @@ monitoring infrastructure.
 
 **Their ask:** "Ask about tickets" — the sponsor's very first bullet
 **Box:** 5 minutes
+**Skill file:** [`skills/05-ticketing.md`](../skills/05-ticketing.md)
 
 > Needs a second MCP server connected in the same session. Real ticketing sandbox if you can get one;
 > a local mock is acceptable and still makes the point. Decide in pre-flight, not live.
 >
-> Fallback mock is `fixtures/mock-tickets.md`, wired into the skills file under *Change Management &
-> Ticketing → Demo / Offline Ticket Store*. It carries the DR-array tickets and their blockers, so
+> Fallback mock is `fixtures/mock-tickets.md`, wired into [`skills/05-ticketing.md`](../skills/05-ticketing.md)
+> under *Demo / offline ticket store*. It carries the DR-array tickets and their blockers, so
 > prompt C answers correctly with no connector at all. Say out loud that it's a fixture.
 
 ### Prompt A — produce the plan
@@ -311,11 +317,14 @@ owns. Nothing you saw required custom code from us."
 
 ## Skills-file dependencies
 
-Steps 1–3 rely on workflows that have been in `../database-sre-agent.md` since the original demo.
-Steps 4–6 rely on four sections added 2026-08-19: *Provisioning Standards* and *Presets* under
-Proactive & Automation, *Reporting & Dashboards* after Output Format, and *Change Management &
-Ticketing* after Compliance & Audit. All four are in the policy file now — the changelog at the top
-of that file tracks them.
+Steps 1–3 rely on [`skills/01-fleet-awareness.md`](../skills/01-fleet-awareness.md) and
+[`skills/02-compliance-audit.md`](../skills/02-compliance-audit.md), workflows that have been in the
+skills set since the original demo. Steps 4–6 rely on three files added 2026-08-19 and later split
+out on their own: *Provisioning Standards* and *Presets* in
+[`skills/03-provisioning.md`](../skills/03-provisioning.md), the *Dashboards* rules in
+[`skills/00-global.md`](../skills/00-global.md), and
+[`skills/05-ticketing.md`](../skills/05-ticketing.md). All three are in the skill set now — the
+changelog in `skills/00-global.md` tracks them.
 
 **Two things still need a human check before the dry run:**
 

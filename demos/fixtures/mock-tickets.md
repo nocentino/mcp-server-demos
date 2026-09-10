@@ -8,7 +8,7 @@ and what's blocking them?" without a live ticketing connector.
 
 **How the agent uses it:** read the index and detail sections to answer questions about existing
 tickets. Append newly approved tickets to the index and add a matching detail section, using the
-ticket format defined in `database-sre-agent.md` → Change Management & Ticketing. Never edit the
+ticket format defined in [`skills/05-ticketing.md`](../../skills/05-ticketing.md). Never edit the
 status, severity, or assignment of an existing ticket without explicit approval.
 
 **Snapshot date:** 2026-08-19 (revised 20:30Z — reconciled against live fleet state)
@@ -595,7 +595,7 @@ Filed on explicit approval. 38 tickets: 15 CRITICAL, 23 HIGH. Five findings from
 
 - **Affected Resource:** aen-sql-25-a
 - **Finding:** Observed - aen-sql-25-a and aen-sql-25-b form Pair 1, and both resolve to **PROD-AZ3** (sn1-x90r2-f07-27: both members are on the same array). Required - both members of a cluster pair must resolve to different production zones. A single zone failure takes out both members, so the HA pairing provides no protection against it.
-- **Evidence:** Volume-to-array mapping via `get_volumes_multi_tool` with `filter=contains(name,'aen-sql')`, then array-to-zone resolution through the Fleet topology table in `database-sre-agent.md`. aen-sql-25-a -> sn1-x90r2-f07-27 -> PROD-AZ3.
+- **Evidence:** Volume-to-array mapping via `get_volumes_multi_tool` with `filter=contains(name,'aen-sql')`, then array-to-zone resolution through the Fleet topology table in [`skills/00-reference.md`](../../skills/00-reference.md). aen-sql-25-a -> sn1-x90r2-f07-27 -> PROD-AZ3.
 - **Recommended Action:** Relocate one member of Pair 1 to a different PROD zone. Candidate destinations with headroom: `sn1-x90r2-f05-27` or `sn1-x90r2-f05-33` (PROD-AZ2, but see INC0104639 regarding their fleet membership), or the other PROD-AZ1/AZ3 arrays. Requires a coordinated migration and an application maintenance window.
 - **Severity:** HIGH · **Effort:** High · **Risk:** High · **Change Type:** Planned
 - **Owning Team:** Storage
@@ -607,7 +607,7 @@ Filed on explicit approval. 38 tickets: 15 CRITICAL, 23 HIGH. Five findings from
 
 - **Affected Resource:** aen-sql-25-c
 - **Finding:** Observed - aen-sql-25-c and aen-sql-25-d form Pair 2, and both resolve to **PROD-AZ1** (sn1-x90r2-f06-33 and sn1-x90r2-f06-27: the members are on two different arrays that share a zone). Required - both members of a cluster pair must resolve to different production zones. A single zone failure takes out both members, so the HA pairing provides no protection against it.
-- **Evidence:** Volume-to-array mapping via `get_volumes_multi_tool` with `filter=contains(name,'aen-sql')`, then array-to-zone resolution through the Fleet topology table in `database-sre-agent.md`. aen-sql-25-c -> sn1-x90r2-f06-33 -> PROD-AZ1.
+- **Evidence:** Volume-to-array mapping via `get_volumes_multi_tool` with `filter=contains(name,'aen-sql')`, then array-to-zone resolution through the Fleet topology table in [`skills/00-reference.md`](../../skills/00-reference.md). aen-sql-25-c -> sn1-x90r2-f06-33 -> PROD-AZ1.
 - **Recommended Action:** Relocate one member of Pair 2 to a different PROD zone. Candidate destinations with headroom: `sn1-x90r2-f05-27` or `sn1-x90r2-f05-33` (PROD-AZ2, but see INC0104639 regarding their fleet membership), or the other PROD-AZ1/AZ3 arrays. Requires a coordinated migration and an application maintenance window.
 - **Severity:** HIGH · **Effort:** High · **Risk:** High · **Change Type:** Planned
 - **Owning Team:** Storage
