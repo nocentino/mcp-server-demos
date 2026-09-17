@@ -131,5 +131,5 @@ Produce the "Compliance & Audit" report.
 
 ## Related Posts
 
-- [Using Claude Code as a Database SRE Agent with the Pure Storage Fusion MCP Server](https://www.nocentino.com/posts/2026-05-22-database-sre-agent-claude-code-fusion-mcp/)
+- [Using Claude Code as a Database SRE Agent with the Pure Storage Fusion MCP Server](https://www.nocentino.com/posts/2026-07-17-database-sre-agent-claude-code-fusion-mcp/)
 - [Managing Enterprise Storage with Pure Storage Fusion in PowerShell](https://www.nocentino.com/posts/2025-08-14-managing-storage-with-fusion-powershell/)
